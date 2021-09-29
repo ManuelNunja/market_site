@@ -65,7 +65,7 @@ function ResumenCompra(){
     // Ticket Descuento ---- ---- ---- ---- ---- ---- ---- ---- ----
     console.log(separator);
     if(confirm("¿Tiene Ticket descuento?")){
-        let ticketDescuento = prompt("Ingrese el ticket de descuento");
+        let ticketDescuento = prompt("Ingrese el ticket de descuento","TICKET123");
         if(ticketDescuento == "TICKET123"){
             totalVenta = AplicarDescuento(totalVenta);
             console.log(separator);

@@ -1,24 +1,19 @@
 // VARIABLES 
-let separator = "-".repeat(70);
+const separator = "-".repeat(70);
 let listaProductos = [];
 let resumenCompra = [];
 // PRODUCTOS
-let priceProd1 = 100.00;
-let priceProd2 = 90.00;
-let priceProd3 = 80.50;
-let priceProd4 = 70.50;
-let priceProd5 = 60.50;
 // ARRAYS
 let arrayPrecios = [100.00, 90.00, 80.5, 70.5, 60.5];
 let arrayProductos = ["Zapatillas deportivas", "Accesorio de Computadora", "Audifonos", "Ropa", "Olla electrica"];
 let arrayMarcas = ["Adidas", "Rayzer", "Sony", "DG", "Record"];
 // PORCENTAJE AL PAGAR EN CUOTAS
-let porcentajeCuotas = 5;
+const porcentajeCuotas = 5;
 // PORCENTAJE DE IMPUESTO A LAS VENTAS
-let valorImpuestoVentas = 18;
+const valorImpuestoVentas = 18;
 // PORCENTAJE Y TICKET DE DESCUENTO
-let ticketDescuento = "TICKET123";
-let valorTicketDescuento = 10;
+const ticketDescuento = "TICKET123";
+const valorTicketDescuento = 10;
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 // CLASES
 class Producto{
@@ -50,8 +45,8 @@ function mostrarProductos(){
     }
     console.log(separator);
 }
-function CalcularSubTotal(priceProd1, priceProd2, priceProd3, priceProd4, priceProd5){
-    let subTotal = 0;//(parseFloat(priceProd1) + parseFloat(priceProd2) + parseFloat(priceProd3) + parseFloat(priceProd4) + parseFloat(priceProd5)).toFixed(2);
+function CalcularSubTotal(){
+    let subTotal = 0;
     for(i = 0; i <= listaProductos.length - 1; i++){
         subTotal = (parseFloat(subTotal) + parseFloat(listaProductos[i].prodPrecio));
     }

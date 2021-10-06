@@ -1,12 +1,12 @@
 // VARIABLES 
 const separator = "-".repeat(70);
 let listaProductos = [];
-let resumenCompra = [];
+let resumenCompra;
 // PRODUCTOS
 // ARRAYS
-let arrayPrecios = [100.00, 90.00, 80.5, 70.5, 60.5];
-let arrayProductos = ["Zapatillas deportivas", "Accesorio de Computadora", "Audifonos", "Ropa", "Olla electrica"];
-let arrayMarcas = ["Adidas", "Rayzer", "Sony", "DG", "Record"];
+const arrayProductos = ["Zapatillas deportivas", "Accesorio de Computadora", "Audifonos", "Ropa", "Olla electrica"];
+const arrayMarcas = ["Adidas", "Rayzer", "Sony", "DG", "Record"];
+const arrayPrecios = [80.5, 90.00, 100.00, 70.5, 60.5];
 // PORCENTAJE AL PAGAR EN CUOTAS
 const porcentajeCuotas = 5;
 // PORCENTAJE DE IMPUESTO A LAS VENTAS
@@ -27,82 +27,147 @@ class Producto{
     formatPrecio(){
         this.prodPrecio = parseFloat(this.prodPrecio).toFixed(2);
     }
+    verProducto(){
+        console.log(this.prodNombre);
+        console.log(this.prodMarca);
+        console.log(this.prodDescripcion);
+        console.log(this.prodPrecio);
+    }
+}
+class ResumenCompra{
+    constructor(resProductos, resSubTotal, resImpuesto, resDescuento, resCuotas, resvalorCuota, resTotalVenta, resTotalVentaDescuento){
+        this.resProductos = [];
+        this.resSubTotal = 0;
+        this.resImpuesto = 0;
+        this.resTotalVenta = 0;
+        this.resDescuento = 0;
+        this.resTotalVentaDescuento = 0;
+        this.resCuotas = 0;
+        this.resvalorCuota = 0;
+    }
 }
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
-function mostrarProductos(){
-    console.log("DETALLE DE COMPRA")
-    console.log(separator);
-    for(i = 0; i <= arrayProductos.length - 1; i++){
-        let prodCodigo = i.toString().padStart(10, '0');
-        let prodNombre = arrayProductos[i].toString();
-        let prodMarca = arrayMarcas[i].toString();
-        let prodDescripcion = "Descripcion de " + arrayProductos[i].toString();
-        let prodPrecio = arrayPrecios[i].toString();
-        let produto = new Producto(prodCodigo,prodNombre, prodMarca, prodDescripcion, prodPrecio);
-        produto.formatPrecio();
-        listaProductos.push(produto);
-        console.log((i + 1) + ". " + listaProductos[i].prodNombre.padEnd(35, ' ')  + listaProductos[i].prodMarca.padEnd(20, ' ') + listaProductos[i].prodPrecio);
+const cargarProductos = () => {
+    if(arrayProductos.length > 0){
+        listaProductos = [];
+        for(i = 0; i <= arrayProductos.length - 1; i++){
+            const prodCodigo = i.toString().padStart(10, '0');
+            const prodNombre = arrayProductos[i].toString();
+            const prodMarca = arrayMarcas[i].toString();
+            const prodDescripcion = "Descripcion de " + arrayProductos[i].toString();
+            const prodPrecio = arrayPrecios[i].toString();
+            const produto = new Producto(prodCodigo,prodNombre, prodMarca, prodDescripcion, prodPrecio);
+            listaProductos.push(produto);
+        }
+        for(const producto1 of listaProductos){
+            producto1.formatPrecio();
+        }
+        resumenCompra.resProductos = listaProductos;
     }
-    console.log(separator);
 }
-function CalcularSubTotal(){
+const CalcularSubTotal = () => {
     let subTotal = 0;
     for(i = 0; i <= listaProductos.length - 1; i++){
         subTotal = (parseFloat(subTotal) + parseFloat(listaProductos[i].prodPrecio));
     }
+    resumenCompra.resSubTotal = subTotal.toFixed(2);
     return subTotal.toFixed(2);
 }
-function AgregarImpuesto(subTotal){
-    let totalImpuesto = (((subTotal * (valorImpuestoVentas / 100)))).toFixed(2);
-    return totalImpuesto;
+const AgregarImpuesto = (subTotal) => {
+    let ti = (((subTotal * (valorImpuestoVentas / 100)))).toFixed(2);
+    let tv = (parseFloat(subTotal) + parseFloat(ti)).toFixed(2);
+    resumenCompra.resImpuesto = ti;
+    resumenCompra.resTotalVenta = tv;
+    return ti;
 }
-function AplicarDescuento(total){
-    let totalDescuento = (((total * (valorTicketDescuento / 100)))).toFixed(2);
-    return totalDescuento;
+const AplicarDescuento = (total) => {
+    let td = (((total * (valorTicketDescuento / 100)))).toFixed(2);
+    let tvd = (parseFloat(total) - parseFloat(td)).toFixed(2);
+    resumenCompra.resDescuento = td;
+    resumenCompra.resTotalVentaDescuento = tvd;
+    return td;
 }
-function PagoCuotas(total, numeroCuotas){
-    let totalInteres = (((total * (porcentajeCuotas / 100)) + parseFloat(total))).toFixed(2);
-    let valorCuota = (totalInteres / numeroCuotas).toFixed(2);
-    return valorCuota;
+const PagoCuotas = (total, numeroCuotas) => {
+    let ti = (((total * (porcentajeCuotas / 100)) + parseFloat(total))).toFixed(2);
+    let vc = (ti / numeroCuotas).toFixed(2);
+    resumenCompra.resCuotas = numeroCuotas;
+    resumenCompra.resvalorCuota = vc;
+    return vc;
 }
-function ResumenCompra(){
-    let pagarCuotas = 0;
-    let ticketDescuento = "ERROR";
-    let subTotalVenta = -1;
-    let totalImpuesto = -1;
-    let totalVenta = -1;
-    // LISTA DE PRODUCTOS SELECCIONADOS ---- ---- ---- ---- ---- ----
-    mostrarProductos();
-    // SUMA DE PRECIOS ---- ---- ---- ---- ---- ---- ---- ---- ----
-    subTotalVenta = CalcularSubTotal();
-    console.log(`Subtotal: ${subTotalVenta.toString().padStart((54), ' ')}`);
-    // IMPUESTO ---- ---- ---- ---- ---- ---- ---- ---- ----
-    totalImpuesto = AgregarImpuesto(subTotalVenta);
-    totalVenta = (parseFloat(totalImpuesto) + parseFloat(subTotalVenta));
-    console.log(`Total Impuesto x Venta: ${totalImpuesto.toString().padStart((54 - 15), ' ')}`)    
-    console.log(`Total Venta: ${totalVenta.toString().padStart((54 - 3), ' ')}`)
-    // TICKET DESCUENTO ---- ---- ---- ---- ---- ---- ---- ---- ----
+function mostrarProductos(lista, orden){
+    lista.sort((a, b) => {
+        if(orden == 1){
+            if(a.prodNombre > b.prodNombre){return 1;}
+            if(a.prodNombre < b.prodNombre){return -1;}
+        }
+        if(orden == 2){
+            if(a.prodPrecio > b.prodPrecio){return 1;}
+            if(a.prodPrecio < b.prodPrecio){return -1;}
+        }
+        return 0;
+    })
+    for(i = 0; i <= lista.length - 1; i++){
+        console.log((i + 1) + ". " + lista[i].prodNombre.padEnd(35, ' ')  + lista[i].prodMarca.padEnd(20, ' ') + lista[i].prodPrecio);
+    }
     console.log(separator);
-    if(confirm("¿Tiene Ticket descuento?")){
-        let ticketDescuento = prompt("Ingrese el ticket de descuento","TICKET123");
-        if(ticketDescuento == "TICKET123"){
-            totalDescuento = AplicarDescuento(totalVenta);
-            totalVenta = (parseFloat(totalVenta) - parseFloat(totalDescuento));
-            console.log(`Total descuento: ${totalDescuento.toString().padStart((54 - 8), ' ')}`);
-            console.log(`Total Venta -descuento (${valorTicketDescuento + "% OFF"}): ${totalVenta.toString().padStart((54-24), ' ')}`)
-            console.log(separator);
-        }
-    }
-    // PAGAR EN CUOTAS ---- ---- ---- ---- ---- ---- ---- ---- ----
-    if(confirm("¿Pagar en Cuotas?")){
-        pagarCuotas = prompt("Ingrese el numero de cuotas");
-        if(Number(pagarCuotas) > 0){
-            let valorCuota = PagoCuotas(totalVenta, pagarCuotas)
-            console.log(`Cuotas (+ ${porcentajeCuotas + "%"}): ${pagarCuotas}`)
-            console.log(`Valor de cuotas mensual: ${valorCuota.toString().padStart((54-15), ' ')}`);
-            console.log(separator);
-        }
-    }
-    // 
 }
-
+function mostrarTotales(){
+    // SUMA DE PRECIOS ---- ---- ---- ---- ---- ---- ---- ---- ----
+    let st = CalcularSubTotal();
+    console.log(`Subtotal: ${st.toString().padStart((54), ' ')}`);
+    // IMPUESTO ---- ---- ---- ---- ---- ---- ---- ---- ----
+    let ti = AgregarImpuesto(st);
+    let tv = (parseFloat(ti) + parseFloat(st));
+    console.log(`Total Impuesto x Venta: ${ti.toString().padStart((54 - 15), ' ')}`)    
+    console.log(`Total Venta: ${tv.toString().padStart((54 - 3), ' ')}`)
+    console.log(separator);
+}
+function mostrarDescuento(tv){
+    let td = AplicarDescuento(tv);
+    tv = (parseFloat(tv) - parseFloat(td));
+    console.log(`Total descuento: ${td.toString().padStart((54 - 8), ' ')}`);
+    console.log(`Total Venta -descuento (${valorTicketDescuento + "% OFF"}): ${tv.toString().padStart((54-24), ' ')}`)
+    console.log(separator);
+}
+function mostrarCuotas(cuotas){
+    let tv = 0;
+    if(parseFloat(resumenCompra.resTotalVentaDescuento) > 0){
+        tv = resumenCompra.resTotalVentaDescuento;
+    }else{
+        tv = resumenCompra.resTotalVenta;
+    }
+    let vc = PagoCuotas(tv, cuotas)
+    console.log(`Cuotas (+ ${porcentajeCuotas + "%"}): ${cuotas}`)
+    console.log(`Valor de cuotas mensual: ${vc.toString().padStart((54-15), ' ')}`);
+    console.log(separator);
+}
+function cargarCompra(){
+    let cuotas = 0;
+    let ticketDescuento = "ERROR";
+    resumenCompra = new ResumenCompra();
+    // LISTA DE PRODUCTOS SELECCIONADOS ---- ---- ---- ---- ---- ----
+    console.log("DETALLE DE COMPRA");
+    console.log(separator);
+    cargarProductos();
+    if(resumenCompra.resProductos.length > 0){
+        let orden = Number(prompt("Ordenar productos por:\n 1. Nombre\n 2. Precio", "1"));
+        mostrarProductos(resumenCompra.resProductos, orden);
+        mostrarTotales();
+        // TICKET DESCUENTO ---- ---- ---- ---- ---- ---- ---- ---- ----
+        if(confirm("¿Tiene Ticket descuento?")){
+            ticketDescuento = prompt("Ingrese el ticket de descuento","TICKET123");
+            if(ticketDescuento == "TICKET123"){
+                mostrarDescuento(resumenCompra.resTotalVenta);
+            }
+        }
+        // PAGAR EN CUOTAS ---- ---- ---- ---- ---- ---- ---- ---- ----
+        if(confirm("¿Pagar en Cuotas?")){
+            cuotas = Number(prompt("Ingrese el numero de cuotas"));
+            if(Number(cuotas) > 0){
+                mostrarCuotas(cuotas);
+            }
+        }
+    }else{
+        console.log("No hay productos seleccionados en el carrito de compras");
+    }
+}

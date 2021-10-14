@@ -171,3 +171,43 @@ function cargarCompra(){
         console.log("No hay productos seleccionados en el carrito de compras");
     }
 }
+// DESAFIO: "INTERACTUAR CON HTML"
+const arrayCategorias = ["Categoria1", "Categoria2", "Categoria3", "Categoria4", "Categoria5"];
+
+function CreateElement(categoryName){
+    let element = document.createElement("div");
+    element.style.backgroundColor = "#eae853";
+    element.style.padding = "10px";
+    element.style.width = "150px"
+    element.style.height = "150px";
+    element.style.borderRadius = "5px";
+    element.style.fontWeight = "bold"
+    element.style.textAlign = "center";
+    element.style.fontFamily = "Electrolize";
+    element.style.display = "flex";
+    element.style.alignItems = "center";
+    element.style.justifyItems = "center";
+    element.style.cursor = "pointer";
+    let paragraph = CreateParagraph(categoryName);
+    element.appendChild(paragraph);
+    return element;
+}
+
+function CreateParagraph(categoryName){
+    let paragraph = document.createElement("p")
+    paragraph.style.width = "100%";
+    paragraph.style.textAlign = "center";
+    paragraph.innerHTML = categoryName;
+    return paragraph;
+}
+
+function CreateCategory(){
+    let divContainer = document.getElementById("controlCategories");
+    for(i = 0;i <= arrayCategorias.length - 1; i++){
+        let categoryName = arrayCategorias[i];
+        let element = CreateElement(categoryName);
+        divContainer.appendChild(element)
+    }
+    let title = document.getElementById("titleCategorias");
+    title.innerHTML = "Categorías (" + arrayCategorias.length.toString() + ")";
+}

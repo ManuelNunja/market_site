@@ -172,22 +172,22 @@ function cargarCompra(){
     }
 }
 // DESAFIO: "INTERACTUAR CON HTML"
-const arrayCategorias = ["Categoria1", "Categoria2", "Categoria3", "Categoria4", "Categoria5"];
-
-function CreateElement(categoryName){
+// DESAFIO: "INCORPORAR EVENTOS": se incorporo el array descriptionCategorias para obtener los valores desde el evento incorporado en linea 182
+const arrayCategorias = ["DEPORTES", "TECNOLOGÍA", "JUEGOS", "MÚSICA", "HOGAR", "HERRAMIENTAS", "VEHICULOS", "ROPA", "OTROS"];
+const descriptionCategorias = ["Lo mejor en ropa e implementos deportivos ...", "Lo mejor en dispositivos ...", "Las mejores consolas de videojuegos ...", "Instrumentos y más ...", "Lo mejor para decorar tu hogar ...", "Herramientas de construccion ...", "Autos, motos y más ...", "Lo mejor de la moda ...", "Mucho más !!"];
+function CreateElement(categoryName, order, description){
     let element = document.createElement("div");
-    element.style.backgroundColor = "#eae853";
-    element.style.padding = "10px";
-    element.style.width = "150px"
-    element.style.height = "150px";
-    element.style.borderRadius = "5px";
-    element.style.fontWeight = "bold"
-    element.style.textAlign = "center";
-    element.style.fontFamily = "Electrolize";
-    element.style.display = "flex";
-    element.style.alignItems = "center";
-    element.style.justifyItems = "center";
-    element.style.cursor = "pointer";
+    element.classList.add("itemCategoria");
+    element.onmousemove = () => {
+        if(description.innerHTML != descriptionCategorias[order]){
+            description.style.opacity = "0";
+            setTimeout(() => {
+                description.innerHTML = descriptionCategorias[order];
+                description.style.opacity = "1";
+            }, 300);
+            return;
+        }
+    } 
     let paragraph = CreateParagraph(categoryName);
     element.appendChild(paragraph);
     return element;
@@ -203,11 +203,18 @@ function CreateParagraph(categoryName){
 
 function CreateCategory(){
     let divContainer = document.getElementById("controlCategories");
+    let background = document.createElement("div");
+    let description = document.createElement("p")
+    background.classList.add("background");
+    description.classList.add("description");
     for(i = 0;i <= arrayCategorias.length - 1; i++){
         let categoryName = arrayCategorias[i];
-        let element = CreateElement(categoryName);
-        divContainer.appendChild(element)
+        let element = CreateElement(categoryName, i, description);
+        background.appendChild(element);
     }
+    divContainer.appendChild(background);
+    description.innerHTML="Categorias ...";
+    divContainer.appendChild(description);
     let title = document.getElementById("titleCategorias");
     title.innerHTML = "Categorías (" + arrayCategorias.length.toString() + ")";
 }

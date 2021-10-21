@@ -17,146 +17,268 @@ body {
 .container_site {
   width: 100%;
   height: auto;
+  padding: 0;
+  margin: 0;
   background-color: transparent;
-  /*display: grid;
-    align-items: center;
-    justify-items: center;
-    gap: 10px;*/ }
+  overflow: hidden; }
   .container_site > .sectionTitle {
     width: 100%;
-    height: auto;
-    /*display: grid;
-        align-items: center;
-        justify-items: center;*/ }
-    .container_site > .sectionTitle > .background {
-      background-color: #205be1;
-      width: 99.5%;
-      height: 50px;
-      border-radius: 10px;
-      /*display: grid;
-            align-items: flex-start;
-            justify-items: center;*/ }
-      .container_site > .sectionTitle > .background h2 {
-        margin-top: 10px;
-        font-size: 25px;
-        text-align: center;
-        color: #ffffff;
-        font-family: Electrolize; }
-  .container_site .sectionSite {
-    width: 100%;
-    height: auto;
     display: grid;
-    align-items: center;
-    justify-items: center; }
-    .container_site .sectionSite > .background {
-      width: 99.5%;
-      height: auto;
-      display: grid;
-      align-items: center;
-      justify-items: center; }
-
-.controlBanner {
-  width: 100%;
-  height: 430px;
-  display: grid;
-  grid-template-columns: calc(100% - 380px) 380px;
-  grid-template-rows: 100%;
-  grid-template-areas: "col1 col2"; }
-  .controlBanner > .sideLeft {
-    grid-area: col1; }
-    .controlBanner > .sideLeft > .background {
-      width: 99.5%;
-      height: 100%;
-      background-color: #eae853;
-      border-radius: 10px;
-      background-image: url("../resources/images/banner/banner1.png");
-      background-size: cover;
-      background-position: 50% 50%;
-      background-repeat: no-repeat; }
-  .controlBanner > .sideRight {
-    grid-area: col2; }
-    .controlBanner > .sideRight > .background {
-      width: 99.5%;
-      height: 100%;
-      background-color: #205be1;
-      border-radius: 10px;
-      background-image: url("../resources/images/banner/banner2.png");
-      background-size: cover;
-      background-position: 50% 0%;
-      background-repeat: no-repeat; }
-
-.controlCategories {
-  width: 100%;
-  height: 326px;
-  display: flex;
-  align-items: center;
-  justify-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 10px;
-  margin-top: 10px;
-  border-radius: 10px;
-  background-color: #eae853; }
-  .controlCategories > .background {
-    display: flex;
-    align-items: center;
-    justify-items: center;
-    justify-content: center;
-    gap: 10px; }
-    .controlCategories > .background .itemCategoria {
-      background-color: #eae853;
-      padding: 10px;
-      width: 150px;
-      height: 150px;
-      border-radius: 5px;
-      font-weight: bold;
-      text-align: center;
-      font-family: Electrolize;
+    grid-template-columns: 100%;
+    grid-template-rows: 50px;
+    grid-template-areas: "col1";
+    background-color: transparent;
+    padding-top: 5px;
+    padding-left: 5px; }
+    .container_site > .sectionTitle > .background {
+      grid-area: col1;
+      width: calc(100% - 10px);
+      height: calc(50px);
       display: flex;
       align-items: center;
       justify-items: center;
-      cursor: pointer;
-      box-shadow: 5px 5px 10px 0px #353535; }
-  .controlCategories .description {
-    font-family: Electrolize;
-    font-size: 20px;
-    transition: all 0.2s ease-in-out; }
+      justify-content: center;
+      background-color: #205be1;
+      border-radius: 10px; }
+      .container_site > .sectionTitle > .background h2 {
+        width: 100%;
+        font-size: 22px;
+        text-align: center;
+        color: #ffffff;
+        font-family: Electrolize;
+        font-weight: 500; }
+
+.controlBanner {
+  width: 100%;
+  display: grid;
+  grid-template-columns: calc(100% - 380px) 380px;
+  grid-template-rows: 430px;
+  grid-template-areas: "col1 col2"; }
+  .controlBanner > .sideLeft {
+    grid-area: col1;
+    display: grid;
+    justify-items: flex-start;
+    align-items: flex-start;
+    background-color: transparent;
+    padding-top: 5px;
+    padding-left: 5px; }
+    .controlBanner > .sideLeft > .background {
+      width: calc(100% - 2.5px);
+      height: calc(430px - 5px);
+      background-color: #eae853;
+      border-radius: 10px;
+      overflow: hidden; }
+      .controlBanner > .sideLeft > .background img {
+        width: 120%;
+        height: 100%;
+        margin-left: -10%;
+        border-radius: 10px; }
+  .controlBanner > .sideRight {
+    grid-area: col2;
+    display: grid;
+    justify-items: flex-start;
+    align-items: flex-start;
+    background-color: transparent;
+    padding-top: 5px;
+    padding-left: 2.5px; }
+    .controlBanner > .sideRight > .background {
+      width: calc(380px - 7.5px);
+      height: calc(430px - 5px);
+      background-color: #205be1;
+      border-radius: 10px;
+      overflow: hidden; }
+      .controlBanner > .sideRight > .background img {
+        width: 100%;
+        height: 115%;
+        margin-left: 0%;
+        border-radius: 10px; }
+
+.controlCategories {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  grid-template-areas: "col1";
+  background-color: transparent;
+  padding-top: 5px;
+  padding-left: 5px; }
+  .controlCategories > .background {
+    grid-area: col1;
+    width: calc(100% - 10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    background-color: #eae853;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px; }
+    .controlCategories > .background > .row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-items: center;
+      justify-content: center;
+      gap: 10px; }
+      .controlCategories > .background > .row .itemCategoria {
+        background-color: #eae853;
+        padding: 10px;
+        width: 130px;
+        height: 130px;
+        min-width: 130px;
+        min-height: 130px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        font-family: Electrolize;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        cursor: pointer;
+        border: solid #3535354f 1px;
+        transition: all 0.35s ease-in-out; }
+        .controlCategories > .background > .row .itemCategoria:hover {
+          border: solid #35353500 1px;
+          box-shadow: 4px 4px 7px 0px #353535; }
+        .controlCategories > .background > .row .itemCategoria:hover p {
+          margin-left: -1px; }
+        .controlCategories > .background > .row .itemCategoria p {
+          margin-left: 0px;
+          width: 100%;
+          text-align: center;
+          font-size: 13px;
+          transition: all 0.35s ease-in-out; }
+      .controlCategories > .background > .row .description {
+        font-family: Electrolize;
+        font-size: 18px;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        word-spacing: 1px; }
+
+.controlStores {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  grid-template-areas: "col1";
+  background-color: transparent;
+  padding-top: 5px;
+  padding-left: 5px; }
+  .controlStores > .background {
+    grid-area: col1;
+    width: calc(100% - 10px);
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    background-color: #eae853;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 20px; }
+    .controlStores > .background > .row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-items: center;
+      justify-content: center;
+      gap: 10px; }
+      .controlStores > .background > .row .itemTienda {
+        background-color: #eae853;
+        padding: 10px;
+        width: 130px;
+        height: 130px;
+        min-width: 130px;
+        min-height: 130px;
+        border-radius: 10px;
+        font-weight: bold;
+        text-align: center;
+        font-family: Electrolize;
+        display: flex;
+        align-items: center;
+        justify-items: center;
+        cursor: pointer;
+        border: solid #3535354f 1px;
+        transition: all 0.35s ease-in-out;
+        background-size: 60%;
+        background-repeat: no-repeat;
+        background-position: 50%; }
+        .controlStores > .background > .row .itemTienda:hover {
+          border: solid #35353500 1px;
+          box-shadow: 4px 4px 7px 0px #353535; }
+        .controlStores > .background > .row .itemTienda:hover p {
+          margin-left: -1px; }
+        .controlStores > .background > .row .itemTienda p {
+          margin-left: 0px;
+          width: 100%;
+          text-align: center;
+          font-size: 13px;
+          transition: all 0.35s ease-in-out; }
+      .controlStores > .background > .row .description {
+        font-family: Electrolize;
+        font-size: 18px;
+        font-weight: 500;
+        transition: all 0.2s ease-in-out;
+        word-spacing: 1px; }
+
+@media only screen and (min-width: 360px) and (max-width: 424px) {
+  .controlBanner {
+    width: 100%;
+    display: grid;
+    grid-template-columns: calc(100% - 380px);
+    grid-template-rows: 430px;
+    grid-template-areas: "col1"; } }
 
 .headSite {
   width: 100%;
   display: grid;
-  grid-template-columns: calc(100% - 90px) 90px;
-  grid-template-rows: 90px;
+  grid-template-columns: calc(100% - 70px) 70px;
+  grid-template-rows: 70px;
   grid-template-areas: "col1 col2"; }
-  .headSite .sideLeft {
+  .headSite > .sideLeft {
     grid-area: col1;
     display: grid;
-    justify-items: center;
-    align-items: center; }
-    .headSite .sideLeft > .background {
+    justify-items: flex-start;
+    align-items: flex-start;
+    background-color: transparent;
+    padding-top: 5px;
+    padding-left: 5px; }
+    .headSite > .sideLeft > .background {
       border-radius: 10px;
-      width: 99.5%;
-      height: 80px;
+      /*width: calc(100% - 10px);
+            height: 60px;*/
+      width: calc(100% - 2.5px);
+      height: calc(70px - 5px);
       background-color: #eae853;
       color: #205be1; }
-      .headSite .sideLeft > .background img {
-        width: 280px;
+      .headSite > .sideLeft > .background img {
+        width: 235px;
         cursor: pointer; }
-  .headSite .sideRight {
+  .headSite > .sideRight {
     grid-area: col2;
     display: grid;
-    justify-items: center;
-    align-items: center; }
-    .headSite .sideRight > .background {
+    justify-items: flex-start;
+    align-items: flex-start;
+    background-color: transparent;
+    padding-top: 5px;
+    padding-left: 2.5px; }
+    .headSite > .sideRight > .background {
       border-radius: 10px;
-      width: 80px;
-      height: 80px;
+      /*width: 60px;
+            height: 60px;*/
+      width: calc(100% - 5px);
+      height: calc(70px - 5px);
       background-color: #205be1;
       color: #ffffff;
       display: grid;
       align-items: center; }
-      .headSite .sideRight > .background span {
-        font-size: 60px;
+      .headSite > .sideRight > .background span {
+        font-size: 40px;
         font-family: Digitall;
         color: #ffffff;
         text-align: center;

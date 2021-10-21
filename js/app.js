@@ -46,6 +46,20 @@ class ResumenCompra{
         this.resvalorCuota = 0;
     }
 }
+class Category{
+    constructor(catCodigo, catNombre, catDescripcion){
+        this.catCodigo = catCodigo;
+        this.catNombre = catNombre;
+        this.catDescripcion = catDescripcion;
+    }
+}
+class OfficialStore{
+    constructor(storeCodigo, storeNombre, storelogo){
+        this.storeCodigo = storeCodigo;
+        this.storeNombre = storeNombre;
+        this.storeLogo = storelogo;
+    }
+}
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
 const cargarProductos = () => {
     if(arrayProductos.length > 0){
@@ -175,14 +189,18 @@ function cargarCompra(){
 // DESAFIO: "INCORPORAR EVENTOS": se incorporo el array descriptionCategorias para obtener los valores desde el evento incorporado en linea 182
 const arrayCategorias = ["DEPORTES", "TECNOLOGÍA", "JUEGOS", "MÚSICA", "HOGAR", "HERRAMIENTAS", "VEHICULOS", "ROPA", "OTROS"];
 const descriptionCategorias = ["Lo mejor en ropa e implementos deportivos ...", "Lo mejor en dispositivos ...", "Las mejores consolas de videojuegos ...", "Instrumentos y más ...", "Lo mejor para decorar tu hogar ...", "Herramientas de construccion ...", "Autos, motos y más ...", "Lo mejor de la moda ...", "Mucho más !!"];
-function CreateElement(categoryName, order, description){
-    let element = document.createElement("div");
+
+const arrayTiendas = ["ADIDAS", "CORT", "ERNIE BALL", "HP", "HUAWEI", "JBL", "KINGSTON", "LENOVO", "LEXAR", "NIKE", "PEAVEY", "PLAYSTATION", "PURINA", "ROYAL LONDON", "SAMSUNG", "SONY", "WILSON", "XIOMI"];
+const logoTiendas = ["adidas", "cort", "ernie_ball", "hp", "huawei", "jbl", "kingston", "lenovo", "lexar", "nike", "peavey", "playstation", "purina", "royal_london", "samsung", "sony", "wilson", "xiomi"];
+
+function CreateElement(categoryName, order, description, catDescripcion){
+    let element = document.createElement("a");
     element.classList.add("itemCategoria");
     element.onmousemove = () => {
-        if(description.innerHTML != descriptionCategorias[order]){
+        if(description.innerHTML != catDescripcion){
             description.style.opacity = "0";
             setTimeout(() => {
-                description.innerHTML = descriptionCategorias[order];
+                description.innerHTML = catDescripcion;
                 description.style.opacity = "1";
             }, 300);
             return;
@@ -192,29 +210,99 @@ function CreateElement(categoryName, order, description){
     element.appendChild(paragraph);
     return element;
 }
-
 function CreateParagraph(categoryName){
-    let paragraph = document.createElement("p")
-    paragraph.style.width = "100%";
-    paragraph.style.textAlign = "center";
+    let paragraph = document.createElement("p");
     paragraph.innerHTML = categoryName;
     return paragraph;
 }
-
 function CreateCategory(){
     let divContainer = document.getElementById("controlCategories");
     let background = document.createElement("div");
+    let row = document.createElement("div");
+    let row1 = document.createElement("div");
     let description = document.createElement("p")
+
     background.classList.add("background");
+    row.classList.add("row");
+    row1.classList.add("row");
     description.classList.add("description");
-    for(i = 0;i <= arrayCategorias.length - 1; i++){
-        let categoryName = arrayCategorias[i];
-        let element = CreateElement(categoryName, i, description);
-        background.appendChild(element);
+    // LOCALSTORAGE
+    createJSON_Category();
+    const jsonCategory = localStorage.getItem("arrayCategory");
+    let arrayCategory = JSON.parse(jsonCategory)
+
+    for(i = 0;i <= arrayCategory.length - 1; i++){
+        let category = arrayCategory[i];
+        let element = CreateElement(category.catNombre, i, description, category.catDescripcion);
+        row.appendChild(element);
     }
+    background.appendChild(row);
     divContainer.appendChild(background);
-    description.innerHTML="Categorias ...";
-    divContainer.appendChild(description);
-    let title = document.getElementById("titleCategorias");
-    title.innerHTML = "Categorías (" + arrayCategorias.length.toString() + ")";
+    description.innerHTML="Visita nuestras categorias y encuentra lo que buscas !!!";
+    row1.appendChild(description);
+    background.appendChild(row1);
+}
+function createJSON_Category(){
+    // LOCALSTORAGE
+    let arrayCategory = [];
+    for(i = 0;i <= arrayCategorias.length - 1; i++){
+        let catCodigo = (i + 1).toString().padStart(5, '0');
+        let catNombre = arrayCategorias[i];
+        let catDescripcion = descriptionCategorias[i];
+        let category = new Category(catCodigo, catNombre, catDescripcion);
+        arrayCategory.push(category);
+    }
+    const textoJSON = JSON.stringify(arrayCategory);
+    localStorage.setItem("arrayCategory", textoJSON)
+}
+
+function CreateElement_Store(storeNombre, storeLogo){
+    let element = document.createElement("a");
+    element.classList.add("itemTienda");
+    const urlimage = "url(resources/images/logo_empresas/" + storeLogo + ".svg)";
+    element.style.backgroundImage = urlimage;
+    element.onmousemove = () => {
+        /*if(description.innerHTML != catDescripcion){
+            description.style.opacity = "0";
+            setTimeout(() => {
+                description.innerHTML = catDescripcion;
+                description.style.opacity = "1";
+            }, 300);
+            return;
+        }*/
+    } 
+    return element;
+}
+function CreateStore(){
+    let divContainer = document.getElementById("controlStores");
+    let background = document.createElement("div");
+    let row = document.createElement("div");
+
+    background.classList.add("background");
+    row.classList.add("row");
+    // LOCALSTORAGE
+    createJSON_Stores();
+    const jsonStore = localStorage.getItem("arrayStores");
+    let arrayStores = JSON.parse(jsonStore)
+
+    for(i = 0;i <= arrayStores.length - 1; i++){
+        let strore = arrayStores[i];
+        let element = CreateElement_Store(strore.storeNombre, strore.storeLogo);
+        row.appendChild(element);
+    }
+    background.appendChild(row);
+    divContainer.appendChild(background);
+}
+function createJSON_Stores(){
+    // LOCALSTORAGE
+    let arrayStores = [];
+    for(i = 0;i <= arrayTiendas.length - 1; i++){
+        let storeCodigo = (i + 1).toString().padStart(5, '0');
+        let storeNombre = arrayTiendas[i];
+        let storelogo = logoTiendas[i];
+        let store = new OfficialStore(storeCodigo, storeNombre, storelogo);
+        arrayStores.push(store);
+    }
+    const textoJSON = JSON.stringify(arrayStores);
+    localStorage.setItem("arrayStores", textoJSON)
 }

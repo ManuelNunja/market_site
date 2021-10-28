@@ -5,6 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Market</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="js/app.js"></script>
     <link href="css/style.css" rel="stylesheet">
 </head>
@@ -44,6 +45,12 @@
             </div>
             <div class="sectionTitle">
                 <div class="background">
+                    <h2>Ofertas</h2>
+                </div>
+            </div>
+            <div id="controlOffer" class="controlOffer" data-offer="1"></div>
+            <div class="sectionTitle">
+                <div class="background">
                     <h2>Tiendas Oficiales</h2>
                 </div>
             </div>
@@ -63,8 +70,40 @@
     </footer>
     <script>
         //cargarCompra();
-        CreateCategory();
         CreateStore();
+        CreateCategory();
+        // DESAFIO: "INCORPORAR JQUERY AL PROYECTO"
+        $(document).ready(function(){
+            const containerControl = $("#controlOffer");
+            let background = document.createElement("div");
+            let row = document.createElement("div");
+            $(background).addClass("background");
+            $(row).addClass("row");
+            let delayAnim = 1;
+            for(i = 0; i <= 6; i++){
+                let itemOffer = document.createElement("div")
+                $(itemOffer).addClass("itemOffer");
+                $(itemOffer).addClass("itemOffer--animation");
+                let delay = ((delayAnim / 100) * 20);
+                $(itemOffer).css("animation-delay", delay + "s");    
+                $(itemOffer).attr("id","itemOffer" + (i + 1));
+                $(row).append(itemOffer);
+                delayAnim++;
+            }
+            $(background).append(row);
+            $(containerControl).append(background);
+            $(".itemOffer").hover(function(){
+                $(this).css("background-color","#205be1");
+            })
+            $(".itemOffer").hover(
+                function() {
+                    $(this).css("background-color","#205be1");
+                }, function() {
+                    $(this).css("background-color","#3535354f");
+                }
+            )
+        })
+        
     </script>
 </body>
 </html>

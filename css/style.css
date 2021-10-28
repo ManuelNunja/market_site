@@ -20,7 +20,11 @@ body {
   padding: 0;
   margin: 0;
   background-color: transparent;
-  overflow: hidden; }
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding-top: 70px !important; }
   .container_site > .sectionTitle {
     width: 100%;
     display: grid;
@@ -28,7 +32,7 @@ body {
     grid-template-rows: 50px;
     grid-template-areas: "col1";
     background-color: transparent;
-    padding-top: 5px;
+    padding-top: 0px;
     padding-left: 5px; }
     .container_site > .sectionTitle > .background {
       grid-area: col1;
@@ -51,7 +55,7 @@ body {
 .controlBanner {
   width: 100%;
   display: grid;
-  grid-template-columns: calc(100% - 380px) 380px;
+  grid-template-columns: calc(100% - 350px) 350px;
   grid-template-rows: 430px;
   grid-template-areas: "col1 col2"; }
   .controlBanner > .sideLeft {
@@ -82,7 +86,7 @@ body {
     padding-top: 5px;
     padding-left: 2.5px; }
     .controlBanner > .sideRight > .background {
-      width: calc(380px - 7.5px);
+      width: calc(350px - 7.5px);
       height: calc(430px - 5px);
       background-color: #205be1;
       border-radius: 10px;
@@ -100,12 +104,11 @@ body {
   grid-template-rows: 100%;
   grid-template-areas: "col1";
   background-color: transparent;
-  padding-top: 5px;
+  padding-top: 0px;
   padding-left: 5px; }
   .controlCategories > .background {
     grid-area: col1;
     width: calc(100% - 10px);
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -114,9 +117,9 @@ body {
     background-color: #eae853;
     border-radius: 10px;
     padding-top: 10px;
-    padding-bottom: 20px; }
+    padding-bottom: 10px; }
     .controlCategories > .background > .row {
-      width: 100%;
+      width: 80%;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -165,23 +168,21 @@ body {
   grid-template-rows: 100%;
   grid-template-areas: "col1";
   background-color: transparent;
-  padding-top: 5px;
+  padding-top: 0px;
   padding-left: 5px; }
   .controlStores > .background {
     grid-area: col1;
     width: calc(100% - 10px);
-    height: 100%;
     display: flex;
-    flex-direction: column;
     align-items: center;
     justify-items: center;
     justify-content: center;
     background-color: #eae853;
     border-radius: 10px;
     padding-top: 10px;
-    padding-bottom: 20px; }
+    padding-bottom: 10px; }
     .controlStores > .background > .row {
-      width: 100%;
+      width: 80%;
       display: flex;
       flex-wrap: wrap;
       align-items: center;
@@ -226,6 +227,75 @@ body {
         transition: all 0.2s ease-in-out;
         word-spacing: 1px; }
 
+.controlOffer {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 100%;
+  grid-template-rows: 100%;
+  grid-template-areas: "col1";
+  background-color: transparent;
+  padding-top: 0px;
+  padding-left: 5px; }
+  .controlOffer > .background {
+    grid-area: col1;
+    width: calc(100% - 10px);
+    display: flex;
+    align-items: center;
+    justify-items: center;
+    justify-content: center;
+    background-color: #eae853;
+    border-radius: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px; }
+    .controlOffer > .background > .row {
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-items: center;
+      justify-content: center;
+      gap: 10px; }
+      .controlOffer > .background > .row .itemOffer {
+        background-color: #3535354f;
+        padding: 10px;
+        width: 207px;
+        height: 368px;
+        min-width: 207px;
+        min-height: 368px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.35s ease-in-out;
+        opacity: 0;
+        background-repeat: no-repeat;
+        background-size: 100%;
+        background-position: 50%;
+        overflow: hidden; }
+        .controlOffer > .background > .row .itemOffer:nth-child(1) {
+          background-image: url(../resources/images/offer/offer1_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(2) {
+          background-image: url(../resources/images/offer/offer2_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(3) {
+          background-image: url(../resources/images/offer/offer3_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(4) {
+          background-image: url(../resources/images/offer/offer4_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(5) {
+          background-image: url(../resources/images/offer/offer5_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(6) {
+          background-image: url(../resources/images/offer/offer6_1.png); }
+        .controlOffer > .background > .row .itemOffer:nth-child(7) {
+          background-image: url(../resources/images/offer/offer7_1.png); }
+        .controlOffer > .background > .row .itemOffer:hover {
+          background-size: 110%; }
+      .controlOffer > .background > .row .itemOffer--animation {
+        animation: animItem 0.35s ease-in-out;
+        animation-fill-mode: forwards; }
+
+@keyframes animItem {
+  0% {
+    opacity: 0; }
+  100% {
+    opacity: 1; } }
+
 @media only screen and (min-width: 360px) and (max-width: 424px) {
   .controlBanner {
     width: 100%;
@@ -238,8 +308,13 @@ body {
   width: 100%;
   display: grid;
   grid-template-columns: calc(100% - 70px) 70px;
-  grid-template-rows: 70px;
-  grid-template-areas: "col1 col2"; }
+  grid-template-rows: 75px;
+  grid-template-areas: "col1 col2";
+  position: fixed;
+  z-index: 1090;
+  background-color: #ffffff;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px; }
   .headSite > .sideLeft {
     grid-area: col1;
     display: grid;

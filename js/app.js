@@ -196,16 +196,6 @@ const logoTiendas = ["adidas", "cort", "ernie_ball", "hp", "huawei", "jbl", "kin
 function CreateElement(categoryName, order, description, catDescripcion){
     let element = document.createElement("a");
     element.classList.add("itemCategoria");
-    element.onmousemove = () => {
-        if(description.innerHTML != catDescripcion){
-            description.style.opacity = "0";
-            setTimeout(() => {
-                description.innerHTML = catDescripcion;
-                description.style.opacity = "1";
-            }, 300);
-            return;
-        }
-    } 
     let paragraph = CreateParagraph(categoryName);
     element.appendChild(paragraph);
     return element;
@@ -238,9 +228,6 @@ function CreateCategory(){
     }
     background.appendChild(row);
     divContainer.appendChild(background);
-    description.innerHTML="Visita nuestras categorias y encuentra lo que buscas !!!";
-    row1.appendChild(description);
-    background.appendChild(row1);
 }
 function createJSON_Category(){
     // LOCALSTORAGE
@@ -259,18 +246,8 @@ function createJSON_Category(){
 function CreateElement_Store(storeNombre, storeLogo){
     let element = document.createElement("a");
     element.classList.add("itemTienda");
-    const urlimage = "url(resources/images/logo_empresas/" + storeLogo + ".svg)";
+    const urlimage = `url('resources/images/logo_empresas/png/${storeLogo}.png')`;
     element.style.backgroundImage = urlimage;
-    element.onmousemove = () => {
-        /*if(description.innerHTML != catDescripcion){
-            description.style.opacity = "0";
-            setTimeout(() => {
-                description.innerHTML = catDescripcion;
-                description.style.opacity = "1";
-            }, 300);
-            return;
-        }*/
-    } 
     return element;
 }
 function CreateStore(){

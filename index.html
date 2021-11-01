@@ -63,6 +63,13 @@
             </div>
             <div class="controlCategories" id="controlCategories">
             </div>
+            <div class="controlPreviewProduct" id="controlPreviewProduct">
+                <div class="background">
+                    <div class="closeButton"><span>X</span></div>
+                    <div class="imgOffer"></div>
+                    <div class="logoM"><span>M</span></div>
+                </div>
+            </div>
         </div>
     </main>
     <footer>
@@ -87,6 +94,48 @@
                 let delay = ((delayAnim / 100) * 20);
                 $(itemOffer).css("animation-delay", delay + "s");    
                 $(itemOffer).attr("id","itemOffer" + (i + 1));
+                // DESAFIO: "ANIMACIONES ENCADENADAS"
+                $(itemOffer).click(function(){
+                    let backImage = $(itemOffer).css("background-image");
+                    $("#controlPreviewProduct").fadeIn(100)
+                    .css("display","flex");
+                    setTimeout(() => {
+                        $("#controlPreviewProduct").addClass("controlPreviewProduct--animate");
+                    }, 200);
+                    setTimeout(() => {
+                        $("#controlPreviewProduct").animate({
+                            width: "360px",
+                            height: "400px",
+                        }, 0)
+                        $(".imgOffer").css("background-image",backImage);
+                    }, 750);
+                    setTimeout(() => {
+                        $("#controlPreviewProduct").animate({
+                            width: "360px",
+                            height: "700px",
+                        }, 0)
+                        setTimeout(() => {
+                            $(".closeButton").animate({
+                                opacity: 1
+                            }, 0)
+                        }, 1500);
+                    }, 1500);
+                    $(".closeButton").click(function(){
+                        $("#controlPreviewProduct").animate({
+                            width: "360px",
+                            height: "400px",
+                        }, 0)
+                        setTimeout(() => {
+                            $("#controlPreviewProduct").animate({
+                                width: "85px",
+                                height: "85px",
+                            }, 0)
+                        }, 1000);
+                        setTimeout(() => {
+                            $("#controlPreviewProduct").fadeOut(500);
+                        }, 2000);
+                    });
+                });
                 $(row).append(itemOffer);
                 delayAnim++;
             }
@@ -103,7 +152,6 @@
                 }
             )
         })
-        
-    </script>
+ </script>
 </body>
 </html>

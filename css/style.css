@@ -10,9 +10,18 @@
   font-weight: normal;
   font-style: normal; }
 
+* {
+  transition: all 0.2s ease-in-out;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none; }
+
 body {
-  margin: 0;
-  padding: 0; }
+  margin: 0 !important;
+  padding: 0 !important;
+  background-color: #ffffff !important;
+  overflow-y: scroll; }
 
 .container_site {
   width: 100%;
@@ -296,6 +305,92 @@ body {
   100% {
     opacity: 1; } }
 
+.controlPreviewProduct {
+  width: 85px;
+  height: 85px;
+  background-color: transparent;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  display: flex;
+  justify-items: center;
+  align-items: center;
+  justify-content: center;
+  transform: scale(0.8);
+  display: none; }
+  .controlPreviewProduct > .background {
+    width: calc(100% - 10px);
+    height: calc(100% - 10px);
+    background-color: #205be1;
+    position: relative;
+    border-radius: 10px;
+    border: solid 2px white; }
+    .controlPreviewProduct > .background .imgOffer {
+      position: absolute;
+      top: 5px;
+      left: 5px;
+      width: calc(100% - 10px);
+      height: calc(100% - 80px);
+      background-repeat: no-repeat;
+      background-position: 50%;
+      background-size: contain;
+      background-color: transparent;
+      border-radius: 10px;
+      z-index: 0; }
+    .controlPreviewProduct > .background .closeButton {
+      position: absolute;
+      width: 30px;
+      height: 30px;
+      top: 5px;
+      right: 5px;
+      border-radius: 10px;
+      background-color: #eae853;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      opacity: 1;
+      z-index: 1; }
+      .controlPreviewProduct > .background .closeButton span {
+        font-size: 20px;
+        font-weight: bold;
+        font-family: Digitall;
+        color: #205be1;
+        text-align: center;
+        cursor: pointer; }
+    .controlPreviewProduct > .background .logoM {
+      position: absolute;
+      width: 65px;
+      height: 65px;
+      bottom: 5px;
+      left: 5px;
+      border-radius: 10px;
+      background-color: #eae853;
+      display: flex;
+      justify-items: center;
+      align-items: center;
+      justify-content: center;
+      cursor: default;
+      z-index: 1; }
+      .controlPreviewProduct > .background .logoM span {
+        font-size: 55px;
+        font-weight: bold;
+        font-family: Digitall;
+        color: #205be1;
+        text-align: center; }
+
+.controlPreviewProduct--animate {
+  animation: animateScale 0.2s ease-in-out;
+  animation-delay: 0.35s;
+  animation-fill-mode: forwards; }
+
+@keyframes animateScale {
+  from {
+    transform: scale(0.8); }
+  to {
+    transform: scale(1); } }
+
 @media only screen and (min-width: 360px) and (max-width: 424px) {
   .controlBanner {
     width: 100%;
@@ -353,7 +448,7 @@ body {
       display: grid;
       align-items: center; }
       .headSite > .sideRight > .background span {
-        font-size: 40px;
+        font-size: 55px;
         font-family: Digitall;
         color: #ffffff;
         text-align: center;

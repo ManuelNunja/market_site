@@ -17,10 +17,10 @@ const valorTicketDescuento = 10;
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- 
 // CLASES
 class Producto{
-    constructor(prodCodigo, prodNombre, prodMarca, prodDescripcion, prodPrecio){
+    constructor(prodCodigo, prodNombre, prodStore, prodDescripcion, prodPrecio){
         this.prodCodigo = prodCodigo;
         this.prodNombre = prodNombre;
-        this.prodMarca = prodMarca;
+        this.prodStore = prodStore;
         this.prodDescripcion = prodDescripcion;
         this.prodPrecio = prodPrecio;
     }
@@ -29,7 +29,7 @@ class Producto{
     }
     verProducto(){
         console.log(this.prodNombre);
-        console.log(this.prodMarca);
+        console.log(this.prodStore);
         console.log(this.prodDescripcion);
         console.log(this.prodPrecio);
     }
@@ -67,10 +67,10 @@ const cargarProductos = () => {
         for(i = 0; i <= arrayProductos.length - 1; i++){
             const prodCodigo = i.toString().padStart(10, '0');
             const prodNombre = arrayProductos[i].toString();
-            const prodMarca = arrayMarcas[i].toString();
+            const prodStore = arrayMarcas[i].toString();
             const prodDescripcion = "Descripcion de " + arrayProductos[i].toString();
             const prodPrecio = arrayPrecios[i].toString();
-            const produto = new Producto(prodCodigo,prodNombre, prodMarca, prodDescripcion, prodPrecio);
+            const produto = new Producto(prodCodigo,prodNombre, prodStore, prodDescripcion, prodPrecio);
             listaProductos.push(produto);
         }
         for(const producto1 of listaProductos){
@@ -121,7 +121,7 @@ function mostrarProductos(lista, orden){
         return 0;
     })
     for(i = 0; i <= lista.length - 1; i++){
-        console.log((i + 1) + ". " + lista[i].prodNombre.padEnd(35, ' ')  + lista[i].prodMarca.padEnd(20, ' ') + lista[i].prodPrecio);
+        console.log((i + 1) + ". " + lista[i].prodNombre.padEnd(35, ' ')  + lista[i].prodStore.padEnd(20, ' ') + lista[i].prodPrecio);
     }
     console.log(separator);
 }

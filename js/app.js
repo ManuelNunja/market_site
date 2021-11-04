@@ -4,9 +4,9 @@ let listaProductos = [];
 let resumenCompra;
 // PRODUCTOS
 // ARRAYS
-const arrayProductos = ["Zapatillas deportivas", "Accesorio de Computadora", "Audifonos", "Ropa", "Olla electrica"];
-const arrayMarcas = ["Adidas", "Rayzer", "Sony", "DG", "Record"];
-const arrayPrecios = [80.5, 90.00, 100.00, 70.5, 60.5];
+const arrayProductos = ["Cuerdas de metal", "Parlante portátil", "Laptop", "Casaca naranja", "Mouse gamer", "Parlante de bolsillo", "Smartphone"];
+const arrayMarcas = ["Earnie Ball", "Sony", "HP", "Adidas", "Lenovo", "JBL", "Xiomi"];
+const arrayPrecios = [80.5, 90.00, 100.00, 70.5, 60.5, 50.5, 80.0];
 // PORCENTAJE AL PAGAR EN CUOTAS
 const porcentajeCuotas = 5;
 // PORCENTAJE DE IMPUESTO A LAS VENTAS
@@ -58,6 +58,21 @@ class OfficialStore{
         this.storeCodigo = storeCodigo;
         this.storeNombre = storeNombre;
         this.storeLogo = storelogo;
+    }
+}
+class Offer{
+    constructor(offerId, offerProductName, offerProductStore, offerProductPrice, offerPercentDiscount, offerExpiration, offerImage){
+        this.offerId = offerId;
+        this.offerProductName = offerProductName;
+        this.offerProductStore = offerProductStore;
+        this.offerProductPrice = offerProductPrice;
+        this.offerPercentDiscount = offerPercentDiscount;
+        this.offerPoductPriceDiscount;
+        this.offerExpiration = offerExpiration;
+        this.offerImage = offerImage;
+    }
+    SetDiscount(price, percent){
+        this.offerPoductPriceDiscount = (price - (((price * (percent / 100))))).toFixed(2);
     }
 }
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -282,4 +297,43 @@ function createJSON_Stores(){
     }
     const textoJSON = JSON.stringify(arrayStores);
     localStorage.setItem("arrayStores", textoJSON)
+}
+
+const arrayOffer = ["Cuerdas de metal", "Parlante portátil", "Laptop", "Casaca naranja", "Mouse gamer", "Parlante de bolsillo", "Smartphone"];
+const relativePathImage = "resources/images/offer/";
+const arrayOfferImage = ["offer1_1.png", "offer2_1.png", "offer3_1.png", "offer4_1.png", "offer5_1.png", "offer6_1.png", "offer7_1.png"];
+const arrayOfferStore = ["ernie_ball", "sony", "hp", "adidas", "lenovo", "jbl", "xiomi"];
+const arrayOfferPrice = [80.5, 90.00, 100.00, 70.5, 60.5, 50.5, 80.0];
+const offerPercent = 10;
+
+function CreatElement_Offer(orderOffer){
+    let offerId = (orderOffer + 1).toString().padStart(5, '0');
+    let delayAnim = (orderOffer + 1);
+    let itemOffer = document.createElement("div");
+    itemOffer.classList.add("itemOffer");
+    itemOffer.classList.add("itemOffer--animation");
+    let delay = ((delayAnim / 100) * 20);
+    itemOffer.style.animationDelay = delay + "s";
+    itemOffer.style.backgroundImage = "url(" + relativePathImage + arrayOfferImage[orderOffer] + ")";
+    itemOffer.setAttribute("id", "itemOffer" + (i + 1));
+    itemOffer.setAttribute("data-offer", offerId);
+    return itemOffer;
+}
+function createJSON_Offer(){
+    // LOCALSTORAGE
+    let arrayOffers = [];
+    for(i = 0;i <= arrayOffer.length - 1; i++){
+        let offerId = (i + 1).toString().padStart(5, '0');
+        let offerProductName = arrayOffer[i];
+        let offerProductStore = arrayOfferStore[i];
+        let offerProductPrice = arrayOfferPrice[i].toFixed(2);
+        let offerPercentDiscount = offerPercent + "%";
+        let offerExpiration = "01/01/2022";
+        let offerImage = relativePathImage + arrayOfferImage[i];
+        let offer = new Offer(offerId, offerProductName, offerProductStore, offerProductPrice, offerPercentDiscount, offerExpiration, offerImage);
+        offer.SetDiscount(offerProductPrice, offerPercent);
+        arrayOffers.push(offer);
+    }
+    const textoJSON = JSON.stringify(arrayOffers);
+    localStorage.setItem("arrayOffers", textoJSON)
 }

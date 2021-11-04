@@ -8,6 +8,9 @@
     <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
     <script src="js/app.js"></script>
     <link href="css/style.css" rel="stylesheet">
+    <!-- FONT AWESOME -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://kit.fontawesome.com/a59e25dd52.js" crossorigin="anonymous"></script>
 </head>
 <body>
     <header>
@@ -21,7 +24,7 @@
             </div>
             <div class="sideRight">
                 <div class="background">
-                    <span>M</span>
+                    <span class="buttonMenu">M</span>
                 </div>
             </div>
         </div>
@@ -65,9 +68,48 @@
             </div>
             <div class="controlPreviewProduct" id="controlPreviewProduct">
                 <div class="background">
+                    <div class="percentOffer">
+                        <span class="percent">50%</span>
+                    </div>
                     <div class="closeButton"><span>X</span></div>
                     <div class="imgOffer"></div>
+                    <!--<div class="priceBefore"></div>
+                    <div class="priceAfter"></div>-->
                     <div class="logoM"><span>M</span></div>
+                    <div class="priceOffer">
+                        <span class="before">Antes: S/20</span>
+                        <span class="after">S/10</span>
+                    </div>
+                    <div class="cart">
+                        <i class="fas fa-cart-plus"></i>
+                    </div>
+                </div>
+            </div>
+            <div class="controlUserRegister">
+                <div class="background">
+                    <h3 class="title">
+                        Registro de Usuario
+                    </h3>
+                    <form>
+                        <div class="row">
+                            <span class="label">Nombres</span>
+                            <input id="inputNombres" class="inputSite" type="text">
+                        </div>
+                        <div class="row">
+                            <span class="label">Apellidos</span>
+                            <input id="inputApellidos" class="inputSite" type="text">
+                        </div>
+                        <div class="row">
+                            <span class="label">Fecha nacimiento</span>
+                            <input id="inputFechaNac" class="inputSite" type="text">
+                        </div>
+                        <div class="row">
+                            <span class="label">Pais</span>
+                            <select class="dropdownCountry">
+                                <option>[select country]</option>
+                            </select>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
@@ -79,6 +121,7 @@
         //cargarCompra();
         CreateStore();
         CreateCategory();
+        createJSON_Offer();
         // DESAFIO: "INCORPORAR JQUERY AL PROYECTO"
         $(document).ready(function(){
             const containerControl = $("#controlOffer");
@@ -88,19 +131,15 @@
             $(row).addClass("row");
             let delayAnim = 1;
             for(i = 0; i <= 6; i++){
-                let itemOffer = document.createElement("div")
-                $(itemOffer).addClass("itemOffer");
-                $(itemOffer).addClass("itemOffer--animation");
-                let delay = ((delayAnim / 100) * 20);
-                $(itemOffer).css("animation-delay", delay + "s");    
-                $(itemOffer).attr("id","itemOffer" + (i + 1));
+                let itemOffer = CreatElement_Offer(i);
                 // DESAFIO: "ANIMACIONES ENCADENADAS"
                 $(itemOffer).click(function(){
                     let backImage = $(itemOffer).css("background-image");
                     $("#controlPreviewProduct").fadeIn(100)
                     .css("display","flex");
                     setTimeout(() => {
-                        $("#controlPreviewProduct").addClass("controlPreviewProduct--animate");
+                        $("#controlPreviewProduct").removeClass("controlPreviewProduct--animateHide");
+                        $("#controlPreviewProduct").addClass("controlPreviewProduct--animateShow");
                     }, 200);
                     setTimeout(() => {
                         $("#controlPreviewProduct").animate({
@@ -119,12 +158,36 @@
                                 opacity: 1
                             }, 0)
                         }, 1500);
-                    }, 1500);
+                    }, 1200);
+                    setTimeout(() => {
+                        $(".priceOffer").removeClass("ImageStore--animateHide");
+                        $(".priceOffer").addClass("ImageStore--animateShow");
+                        $(".percentOffer").removeClass("ImageStore--animateHide");
+                        $(".percentOffer").addClass("ImageStore--animateShow");
+                        $(".cart").removeClass("ImageStore--animateHide");
+                        $(".cart").addClass("ImageStore--animateShow");
+                    }, 1300);
+                    setTimeout(() => {
+                        $(".percentOffer").addClass("Animation--pulse");
+                    }, 1600);
                     $(".closeButton").click(function(){
+                        $(".itemOffer").off("click");
+                        closeButton();
+                    });
+                    function closeButton(){
                         $("#controlPreviewProduct").animate({
                             width: "360px",
                             height: "400px",
                         }, 0)
+                        setTimeout(() => {
+                            $(".priceOffer").removeClass("ImageStore--animateShow");
+                            $(".priceOffer").addClass("ImageStore--animateHide");
+                            $(".percentOffer").removeClass("ImageStore--animateShow");
+                            $(".percentOffer").addClass("ImageStore--animateHide");
+                            $(".percentOffer").removeClass("Animation--pulse");
+                            $(".cart").removeClass("ImageStore--animateShow");
+                            $(".cart").addClass("ImageStore--animateHide");
+                        }, 900);
                         setTimeout(() => {
                             $("#controlPreviewProduct").animate({
                                 width: "85px",
@@ -132,9 +195,50 @@
                             }, 0)
                         }, 1000);
                         setTimeout(() => {
-                            $("#controlPreviewProduct").fadeOut(500);
-                        }, 2000);
-                    });
+                            $("#controlPreviewProduct").removeClass("controlPreviewProduct--animateShow");
+                            $("#controlPreviewProduct").addClass("controlPreviewProduct--animateHide");
+                        }, 1500);
+                        setTimeout(() => {
+                            $(".itemOffer").on("click", function(){
+                                let backImage = $("#" + this.id).css("background-image");
+                                $("#controlPreviewProduct").fadeIn(100)
+                                .css("display","flex");
+                                setTimeout(() => {
+                                    $("#controlPreviewProduct").removeClass("controlPreviewProduct--animateHide");
+                                    $("#controlPreviewProduct").addClass("controlPreviewProduct--animateShow");
+                                }, 200);
+                                setTimeout(() => {
+                                    $("#controlPreviewProduct").animate({
+                                        width: "360px",
+                                        height: "400px",
+                                    }, 0)
+                                    $(".imgOffer").css("background-image",backImage);
+                                }, 750);
+                                setTimeout(() => {
+                                    $("#controlPreviewProduct").animate({
+                                        width: "360px",
+                                        height: "700px",
+                                    }, 0)
+                                    setTimeout(() => {
+                                        $(".closeButton").animate({
+                                            opacity: 1
+                                        }, 0)
+                                    }, 1500);
+                                }, 1200);
+                                setTimeout(() => {
+                                    $(".priceOffer").removeClass("ImageStore--animateHide");
+                                    $(".priceOffer").addClass("ImageStore--animateShow");
+                                    $(".percentOffer").removeClass("ImageStore--animateHide");
+                                    $(".percentOffer").addClass("ImageStore--animateShow");
+                                    $(".cart").removeClass("ImageStore--animateHide");
+                                    $(".cart").addClass("ImageStore--animateShow");
+                                }, 1300);
+                                setTimeout(() => {
+                                    $(".percentOffer").addClass("Animation--pulse");
+                                }, 1600);
+                            });
+                        }, 1600);
+                    }
                 });
                 $(row).append(itemOffer);
                 delayAnim++;
@@ -152,6 +256,35 @@
                 }
             )
         })
- </script>
+    </script>
+    <script>
+        // DESAFIO "AJAX EN TU PROYECTO"
+        function LoadCountries(){
+            const urlget = "https://restcountries.com/v3.1/all";
+            $.get(urlget, function(respuesta, estado){
+                if(estado === "success"){
+                    let misdatos = respuesta;
+                    for(var x in misdatos){
+                        let optionDrop = document.createElement("option");
+                        optionDrop.innerHTML = misdatos[x].name.common;
+                        optionDrop.setAttribute("data-flag", misdatos[x].flags.svg)
+                        $(".dropdownCountry").append(optionDrop);
+                    }
+                }
+            });
+        }
+        $(".buttonMenu").click(function(){
+            if(!$(".controlUserRegister").hasClass("controlUserRegister--animation_show")){
+                $(".controlUserRegister").removeClass("controlUserRegister--animation_hide");
+                $(".controlUserRegister").addClass("controlUserRegister--animation_show");                
+            }
+            else
+            {
+                $(".controlUserRegister").removeClass("controlUserRegister--animation_show");
+                $(".controlUserRegister").addClass("controlUserRegister--animation_hide");
+            }
+        })
+        window.onload = LoadCountries();
+    </script>
 </body>
 </html>

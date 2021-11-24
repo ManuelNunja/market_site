@@ -1,4 +1,8 @@
 // VARIABLES 
+const messageAddCart = "Producto agregado a la lista";
+const messageExistsCart = "Producto ya existe en la lista";
+const messageNoElements = "No hay elementos seleccionados";
+const simboloMoneda = "$";
 const separator = "-".repeat(70);
 let listaProductos = [];
 let resumenCompra;
@@ -67,12 +71,12 @@ class Offer{
         this.offerProductStore = offerProductStore;
         this.offerProductPrice = offerProductPrice;
         this.offerPercentDiscount = offerPercentDiscount;
-        this.offerPoductPriceDiscount;
+        this.offerProductPriceDiscount;
         this.offerExpiration = offerExpiration;
         this.offerImage = offerImage;
     }
     SetDiscount(price, percent){
-        this.offerPoductPriceDiscount = (price - (((price * (percent / 100))))).toFixed(2);
+        this.offerProductPriceDiscount = (price - (((price * (percent / 100))))).toFixed(2);
     }
 }
 // ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ---- ----
@@ -303,8 +307,8 @@ const arrayOffer = ["Cuerdas de metal", "Parlante portátil", "Laptop", "Casaca 
 const relativePathImage = "resources/images/offer/";
 const arrayOfferImage = ["offer1_1.png", "offer2_1.png", "offer3_1.png", "offer4_1.png", "offer5_1.png", "offer6_1.png", "offer7_1.png"];
 const arrayOfferStore = ["ernie_ball", "sony", "hp", "adidas", "lenovo", "jbl", "xiomi"];
-const arrayOfferPrice = [80.5, 90.00, 100.00, 70.5, 60.5, 50.5, 80.0];
-const offerPercent = 10;
+const arrayOfferPrice = [200.5, 180.00, 100.00, 70.5, 350.5, 250.5, 180.0];
+let offerPercent = 0;
 
 function CreatElement_Offer(orderOffer){
     let offerId = (orderOffer + 1).toString().padStart(5, '0');
@@ -323,6 +327,7 @@ function createJSON_Offer(){
     // LOCALSTORAGE
     let arrayOffers = [];
     for(i = 0;i <= arrayOffer.length - 1; i++){
+        offerPercent = offerPercent + 10;
         let offerId = (i + 1).toString().padStart(5, '0');
         let offerProductName = arrayOffer[i];
         let offerProductStore = arrayOfferStore[i];
@@ -336,4 +341,120 @@ function createJSON_Offer(){
     }
     const textoJSON = JSON.stringify(arrayOffers);
     localStorage.setItem("arrayOffers", textoJSON)
+}
+function getOfferData(offerId){
+    let arrayOffers = [];
+    arrayOffers = JSON.parse(localStorage.getItem("arrayOffers"));
+    let productOffer = arrayOffers.find(x => x.offerId == offerId);
+    return productOffer; 
+}
+function createItemCart(dataOffer){
+    const product = getOfferData(dataOffer);
+    
+    let itemCart = document.createElement("div");
+    let imageProduct = document.createElement("div");
+    let img = document.createElement("img");
+    let nameProduct = document.createElement("div");
+    let priceProduct = document.createElement("div");
+    let deleteProduct = document.createElement("div");
+    let a = document.createElement("a");
+
+    itemCart.setAttribute("data-offer", product.offerId);
+    nameProduct.innerHTML = product.offerProductName; //"Nombre producto";
+    priceProduct.innerHTML = "$ " + product.offerProductPriceDiscount; //"S/ 100.00";
+    img.src = product.offerImage;
+    a.innerHTML = "x";
+
+    itemCart.classList.add("itemCart");
+    imageProduct.classList.add("imageProduct");
+    nameProduct.classList.add("nameProduct");
+    priceProduct.classList.add("priceProduct");
+    deleteProduct.classList.add("deleteProduct");
+    deleteProduct.onclick = function(){
+        let cart = JSON.parse(localStorage.getItem("arrayCart"));
+        let productId = itemCart.getAttribute("data-offer");
+        let newCart = cart.filter(x => x.offerId != productId);
+        createJSON_Cart(newCart);
+        itemCart.remove();
+    }
+
+    imageProduct.append(img);
+    itemCart.append(imageProduct);
+    itemCart.append(nameProduct);
+    itemCart.append(priceProduct);
+    deleteProduct.append(a);
+    itemCart.append(deleteProduct);
+    //CartAddItem(product);
+    return(itemCart);
+}
+function Cart_AddItem(productId){
+    let product = Cart_FindItem(productId)
+    if(product == "exists"){
+        return messageExistsCart;
+    }
+    if(product == "add"){
+        return messageAddCart;
+    }
+}
+function Cart_FindItem(productId){
+    let cart = [];
+    let newCart = [];
+    let product;
+    cart = JSON.parse(localStorage.getItem("arrayCart"));
+    if(cart != null){
+        let productFind = cart.find(x => x.offerId == productId);
+        if(productFind != null){
+            product = "exists";
+        }else{
+            product = getOfferData(productId);
+            if(product != null){
+                cart.push(product);
+                createJSON_Cart(cart);
+                product = "add";
+            }
+        }
+    }else{
+        product = getOfferData(productId);
+        if(product != null){
+            newCart.push(product);
+            createJSON_Cart(newCart);
+            product = "add";
+        }
+    }
+    return product;
+}
+function createJSON_Cart(arrayCart){
+    const textoJSON = JSON.stringify(arrayCart);
+    localStorage.setItem("arrayCart", textoJSON)
+}
+function showMessage(messageText){
+    let messageItem = document.createElement("div");
+    let background = document.createElement("div");
+    let message = document.createElement("div");
+    messageItem.classList.add("messageItem");
+    background.classList.add("background");
+    message.innerHTML = messageText;
+    message.classList.add("message");
+    if(messageText == messageAddCart){background.classList.add("background--info");messageItem.setAttribute("data-add",true);}
+    if(messageText == messageExistsCart){background.classList.add("background--alert");messageItem.setAttribute("data-add",false);}
+    background.appendChild(message);
+    messageItem.appendChild(background);
+    return messageItem;
+}
+function loadCart(){
+    let cart = [];
+    let array = [];
+    cart = JSON.parse(localStorage.getItem("arrayCart"));
+    if(cart != null){
+        //console.log(cart);
+        let productId;
+        for(i = 0; i <= cart.length - 1; i++){
+            productId = cart[i].offerId;
+            //console.log(productId);
+            array.push(productId);
+        }
+    }else{
+        array = messageNoElements;
+    }
+    return (array);
 }
